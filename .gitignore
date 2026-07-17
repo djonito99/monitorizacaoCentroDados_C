@@ -1,0 +1,40 @@
+# Executáveis
+monitorizacao
+monitorizacao.exe
+*.exe
+*.out
+*.app
+
+# Ficheiros de compilação
+*.o
+*.obj
+*.a
+*.so
+*.dll
+
+# Dados gerados durante a execução
+data/*.bin
+data/*.tmp
+data/*.json
+data/*.txt
+
+# Manter a pasta data no repositório
+!data/.gitkeep
+
+# IDEs
+.vscode/
+.idea/
+*.dev
+*.layout
+*.depend
+*.cbp
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Ficheiros temporários e cópias
+*.bak
+*.swp
+*~
