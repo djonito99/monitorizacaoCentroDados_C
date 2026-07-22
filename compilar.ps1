@@ -5,7 +5,11 @@ $executavel = "monitorizacao.exe"
 
 $ficheiros = @(
     "src\main.c",
-    "src\menu.c"
+    "src\menu.c",
+    "src\menu_alertas.c",
+    "src\estado.c",
+    "src\sensores.c",
+    "src\alertas.c"
 )
 
 $argumentos = @(

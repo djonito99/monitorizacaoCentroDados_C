@@ -1,7 +1,8 @@
-//impede que o mesmo ficheiro de cabecalho seja incluído varias vezes.
-#ifndef MENU_H  
-#define MENU_H 
+#ifndef MENU_H
+#define MENU_H
 
-void menu_executar(void);   //prototipo da funcao implementada em menu.c
+#include "estado.h"     //onde o tipo EstadoAplicacao está definido
+
+void menu_executar(EstadoAplicacao *aplicacao);
 
 #endif
