@@ -11,7 +11,8 @@ $ficheiros = @(
     "src\estado.c",
     "src\sensores.c",
     "src\alertas.c",
-    "src\historico.c"
+    "src\historico.c",
+    "src\persistencia.c"
 )
 
 $argumentos = @(

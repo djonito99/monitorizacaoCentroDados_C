@@ -3,6 +3,7 @@
 
 #include "menu_alertas.h"
 #include "alertas.h"
+#include "persistencia.h"
 
 static void limpar_buffer_alertas(void)
 {
@@ -140,6 +141,13 @@ static void registar_alerta_manual(
             "Alerta registado com o ID %d.\n",
             id
         );
+
+        if (!persistencia_guardar_tudo(aplicacao)) {
+            printf(
+                "Aviso: o alerta foi criado, mas ocorreu "
+                "um erro ao guardar os dados.\n"
+            );
+        }
     } else if (resultado == -1) {
         printf(
             "Ja existe um alerta ativo com os mesmos dados.\n"
@@ -170,18 +178,28 @@ static void processar_proximo_alerta(
 
     printf("\nAlerta colocado Em Curso:\n");
     printf("ID: %d\n", alerta->id);
+
     printf(
         "Sensor: %s\n",
         alerta->codigo_sensor
     );
+
     printf(
         "Descricao: %s\n",
         alerta->descricao
     );
+
     printf(
         "Severidade: %d\n",
         alerta->severidade
     );
+
+    if (!persistencia_guardar_tudo(aplicacao)) {
+        printf(
+            "Aviso: o alerta foi processado, mas ocorreu "
+            "um erro ao guardar os dados.\n"
+        );
+    }
 }
 
 static void concluir_alerta_em_curso(
@@ -208,6 +226,13 @@ static void concluir_alerta_em_curso(
 
     if (resultado == 1) {
         printf("Alerta concluido.\n");
+
+        if (!persistencia_guardar_tudo(aplicacao)) {
+            printf(
+                "Aviso: o alerta foi concluido, mas ocorreu "
+                "um erro ao guardar os dados.\n"
+            );
+        }
     } else if (resultado == -1) {
         printf(
             "O alerta existe, mas nao esta Em Curso.\n"
@@ -246,22 +271,27 @@ static void pesquisar_alerta(
 
     printf("\nAlerta encontrado:\n");
     printf("ID: %d\n", alerta->id);
+
     printf(
         "Sensor: %s\n",
         alerta->codigo_sensor
     );
+
     printf(
         "Descricao: %s\n",
         alerta->descricao
     );
+
     printf(
         "Estado observado: %s\n",
         alerta->estado_observado
     );
+
     printf(
         "Severidade: %d\n",
         alerta->severidade
     );
+
     printf(
         "Atendimento: %s\n",
         alerta_estado_para_texto(
@@ -319,7 +349,7 @@ void menu_alertas_executar(
         printf("6. Listar alertas Em Curso\n");
         printf("7. Listar alertas concluidos\n");
         printf("8. Pesquisar alerta por ID\n");
-        printf("9. Mostrar total das alertas\n");
+        printf("9. Mostrar total dos alertas\n");
         printf("0. Voltar ao menu principal\n");
 
         if (
@@ -347,7 +377,9 @@ void menu_alertas_executar(
                 break;
 
             case 4:
-                alertas_listar(aplicacao->alertas);
+                alertas_listar(
+                    aplicacao->alertas
+                );
                 break;
 
             case 5:

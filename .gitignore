@@ -38,3 +38,10 @@ desktop.ini
 *.bak
 *.swp
 *~
+
+data/*.bin
+data/*.tmp
+data/*.json
+data/*.txt
+
+!data/.gitkeep
