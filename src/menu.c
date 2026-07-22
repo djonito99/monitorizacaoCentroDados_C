@@ -5,6 +5,7 @@
 #include "sensores.h"
 #include "menu_alertas.h"
 #include "estado.h"         //redundancia mas por precaucao
+#include "menu_historico.h"
 
 static void limpar_buffer_entrada(void)
 {
@@ -171,6 +172,7 @@ void menu_executar(EstadoAplicacao *aplicacao)
         printf("3. Pesquisar sensor por codigo\n");
         printf("4. Mostrar numero total de sensores\n");
         printf("5. Gerir alertas\n");
+        printf("6. Consultar historico\n");
         printf("0. Sair\n");
 
         printf("\nOpcao: ");
@@ -208,6 +210,10 @@ void menu_executar(EstadoAplicacao *aplicacao)
                 
             case 5:
                 menu_alertas_executar(aplicacao);
+                break;
+
+            case 6:
+                menu_historico_executar(aplicacao);
                 break;
 
             case 0:

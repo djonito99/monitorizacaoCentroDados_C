@@ -7,9 +7,11 @@ $ficheiros = @(
     "src\main.c",
     "src\menu.c",
     "src\menu_alertas.c",
+    "src\menu_historico.c",
     "src\estado.c",
     "src\sensores.c",
-    "src\alertas.c"
+    "src\alertas.c",
+    "src\historico.c"
 )
 
 $argumentos = @(
