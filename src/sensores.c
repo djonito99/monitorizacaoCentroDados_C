@@ -1,8 +1,40 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "sensores.h"
+
+static int textos_iguais_sem_maiusculas(
+    const char *texto_a,
+    const char *texto_b
+)
+{
+    unsigned char caractere_a;
+    unsigned char caractere_b;
+
+    if (texto_a == NULL || texto_b == NULL) {
+        return 0;
+    }
+
+    while (*texto_a != '\0' && *texto_b != '\0') {
+        caractere_a = (unsigned char)*texto_a;
+        caractere_b = (unsigned char)*texto_b;
+
+        if (
+            tolower(caractere_a) !=
+            tolower(caractere_b)
+        ) {
+            return 0;
+        }
+
+        texto_a++;
+        texto_b++;
+    }
+
+    return *texto_a == '\0' &&
+           *texto_b == '\0';
+}
 
  // Copia uma string sem ultrapassar o tamanho do destino.
 static void copiar_texto(
@@ -337,7 +369,7 @@ void sensores_filtrar_por_tipo(
     encontrados = 0;
 
     while (atual != NULL) {
-        if (strcmp(atual->tipo, tipo) == 0) {
+        if (textos_iguais_sem_maiusculas(atual->tipo, tipo)) {
             printf(
                 "%s | %s | %.2f %s | %s | severidade %d\n",
                 atual->codigo,
@@ -375,7 +407,7 @@ void sensores_filtrar_por_estado(
     encontrados = 0;
 
     while (atual != NULL) {
-        if (strcmp(atual->estado, estado) == 0) {
+        if (textos_iguais_sem_maiusculas(atual->estado, estado)) {
             printf(
                 "%s | %s | %.2f %s | severidade %d\n",
                 atual->codigo,

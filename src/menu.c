@@ -6,6 +6,7 @@
 #include "menu_alertas.h"
 #include "estado.h"         //redundancia mas por precaucao
 #include "menu_historico.h"
+#include "ordenacao.h"
 
 static void limpar_buffer_entrada(void)
 {
@@ -156,6 +157,52 @@ static void pesquisar_sensor(
     printf("Severidade: %d\n", sensor->severidade);
 }
 
+static void filtrar_sensores_por_tipo(
+    const EstadoAplicacao *aplicacao
+)
+{
+    char tipo[TAM_TIPO];
+
+    ler_texto(
+        "Tipo do sensor: ",
+        tipo,
+        sizeof(tipo)
+    );
+
+    if (tipo[0] == '\0') {
+        printf("O tipo nao pode estar vazio.\n");
+        return;
+    }
+
+    sensores_filtrar_por_tipo(
+        aplicacao->sensores,
+        tipo
+    );
+}
+
+static void filtrar_sensores_por_estado(
+    const EstadoAplicacao *aplicacao
+)
+{
+    char estado[TAM_ESTADO];
+
+    ler_texto(
+        "Estado do sensor: ",
+        estado,
+        sizeof(estado)
+    );
+
+    if (estado[0] == '\0') {
+        printf("O estado nao pode estar vazio.\n");
+        return;
+    }
+
+    sensores_filtrar_por_estado(
+        aplicacao->sensores,
+        estado
+    );
+}
+
 void menu_executar(EstadoAplicacao *aplicacao)
 {
     int opcao;
@@ -173,6 +220,9 @@ void menu_executar(EstadoAplicacao *aplicacao)
         printf("4. Mostrar numero total de sensores\n");
         printf("5. Gerir alertas\n");
         printf("6. Consultar historico\n");
+        printf("7. Listar sensores ordenados\n");
+        printf("8. Gerir alertas\n");
+        printf("9. Consultar historico\n");
         printf("0. Sair\n");
 
         printf("\nOpcao: ");
@@ -207,12 +257,26 @@ void menu_executar(EstadoAplicacao *aplicacao)
                     sensores_contar(aplicacao->sensores)
                 );            
                 break;
-                
+
             case 5:
-                menu_alertas_executar(aplicacao);
+                filtrar_sensores_por_tipo(aplicacao);
                 break;
 
             case 6:
+                filtrar_sensores_por_estado(aplicacao);
+                break;
+
+            case 7:
+                sensores_listar_ordenados(
+                    aplicacao->sensores
+                );
+                break;
+
+            case 8:
+                menu_alertas_executar(aplicacao);
+                break;
+
+            case 9:
                 menu_historico_executar(aplicacao);
                 break;
 
