@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "api.h"
 #include "menu.h"
 #include "sensores.h"
 #include "menu_alertas.h"
@@ -203,6 +204,34 @@ static void filtrar_sensores_por_estado(
     );
 }
 
+//testar o modulo da API
+static void testar_comunicacao_api(void)
+{
+    RespostaApi resposta;
+
+    api_resposta_inicializar(&resposta);
+
+    printf("\nA comunicar com a API...\n");
+
+    if (!api_obter_resposta(&resposta)) {
+        printf(
+            "Falha ao obter a resposta da API.\n"
+        );
+        return;
+    }
+
+    printf(
+        "Resposta recebida com sucesso: %lu bytes.\n",  //especificador para size_t reconhecido por GCC/MinGW
+        (unsigned long)resposta.tamanho
+    );
+
+    printf("\nInicio da resposta:\n");
+    printf("%.500s\n", resposta.conteudo);
+
+    api_libertar_resposta(&resposta);
+}
+
+//menu de execucao da aplicacao
 void menu_executar(EstadoAplicacao *aplicacao)
 {
     int opcao;
@@ -223,6 +252,7 @@ void menu_executar(EstadoAplicacao *aplicacao)
         printf("7. Listar sensores ordenados\n");
         printf("8. Gerir alertas\n");
         printf("9. Consultar historico\n");
+        printf("10. Testar comunicacao com a API\n");   //teste temporario da API
         printf("0. Sair\n");
 
         printf("\nOpcao: ");
@@ -279,6 +309,10 @@ void menu_executar(EstadoAplicacao *aplicacao)
             case 9:
                 menu_historico_executar(aplicacao);
                 break;
+
+                case 10:
+                    testar_comunicacao_api();
+                    break;
 
             case 0:
                 printf("A terminar a aplicacao.\n");

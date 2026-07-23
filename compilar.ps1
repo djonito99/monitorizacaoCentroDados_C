@@ -3,6 +3,7 @@ $ErrorActionPreference = "Stop"
 $compilador = "gcc"
 $executavel = "monitorizacao.exe"
 
+//ficheiros a compilar
 $ficheiros = @(
     "src\main.c",
     "src\menu.c",
@@ -13,7 +14,8 @@ $ficheiros = @(
     "src\alertas.c",
     "src\historico.c",
     "src\persistencia.c",
-    "src\ordenacao.c"
+    "src\ordenacao.c",
+    "src/api.c"
 )
 
 $argumentos = @(
