@@ -98,6 +98,10 @@ void alertas_listar(
     const Alerta *lista
 );
 
+void fila_alertas_listar(       //funcao para listar a fila FIFO
+    const FilaAlertas *fila
+);
+
 void alertas_listar_por_estado(
     const Alerta *lista,
     EstadoAtendimento estado

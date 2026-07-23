@@ -382,10 +382,9 @@ void menu_alertas_executar(
                 );
                 break;
 
-            case 5:
-                alertas_listar_por_estado(
-                    aplicacao->alertas,
-                    ALERTA_PENDENTE
+            case 5: //passa a mostrar a ordem real do processamento da fila
+                fila_alertas_listar(
+                    &aplicacao->fila_alertas_pendentes
                 );
                 break;
 

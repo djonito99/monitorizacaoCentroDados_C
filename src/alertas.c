@@ -420,7 +420,43 @@ void alertas_listar(const Alerta *lista)
 
         printf("------------------------------------------------------------\n");
 
-        atual = atual->proximo_lista;
+        atual = atual->proximo_lista;       //percorre a lista geral
+    }
+}
+
+void fila_alertas_listar(
+    const FilaAlertas *fila
+)
+{
+    const Alerta *atual;
+
+    if (
+        fila == NULL ||
+        fila->inicio == NULL
+    ) {
+        printf("Nao existem alertas pendentes.\n");
+        return;
+    }
+
+    printf("\n");
+    printf("============================================================\n");
+    printf("             FILA DE ALERTAS PENDENTES - FIFO\n");
+    printf("============================================================\n");
+
+    atual = fila->inicio;
+
+    while (atual != NULL) {
+        printf(
+            "ID %d | Sensor %s | Severidade %d | %s\n",
+            atual->id,
+            atual->codigo_sensor,
+            atual->severidade,
+            alerta_estado_para_texto(
+                atual->atendimento
+            )
+        );
+
+        atual = atual->proximo_fila;    //avanca para o proximo elemento da lista ligada
     }
 }
 
