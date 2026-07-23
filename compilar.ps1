@@ -3,7 +3,7 @@ $ErrorActionPreference = "Stop"
 $compilador = "gcc"
 $executavel = "monitorizacao.exe"
 
-//ficheiros a compilar
+#ficheiros a compilar
 $ficheiros = @(
     "src\main.c",
     "src\menu.c",
@@ -15,7 +15,8 @@ $ficheiros = @(
     "src\historico.c",
     "src\persistencia.c",
     "src\ordenacao.c",
-    "src/api.c"
+    "src/api.c",
+    "lib\cJSON.c"
 )
 
 $argumentos = @(
@@ -23,7 +24,8 @@ $argumentos = @(
     "-Wextra",
     "-Wpedantic",
     "-std=c11",
-    "-Iinclude"
+    "-Iinclude",
+    "-Ilib"
 )
 
 Write-Host "A compilar o projeto..."
