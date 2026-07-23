@@ -16,6 +16,7 @@ $ficheiros = @(
     "src\persistencia.c",
     "src\ordenacao.c",
     "src/api.c",
+    "src\json_parser.c",
     "lib\cJSON.c"
 )
 

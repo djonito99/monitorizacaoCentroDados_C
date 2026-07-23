@@ -2,6 +2,7 @@
 #include <string.h>
 
 #include "api.h"
+#include "json_parser.h"
 #include "menu.h"
 #include "sensores.h"
 #include "menu_alertas.h"
@@ -204,7 +205,7 @@ static void filtrar_sensores_por_estado(
     );
 }
 
-//testar o modulo da API
+/*testar o modulo da API
 static void testar_comunicacao_api(void)
 {
     RespostaApi resposta;
@@ -229,6 +230,69 @@ static void testar_comunicacao_api(void)
     printf("%.500s\n", resposta.conteudo);
 
     api_libertar_resposta(&resposta);
+}   */
+
+static void testar_api_e_json(void)
+{
+    RespostaApi resposta;
+    ResultadoJson resultado;
+
+    api_resposta_inicializar(&resposta);
+
+    printf("\nA obter dados da API...\n");
+
+    if (!api_obter_resposta(&resposta)) {
+        printf(
+            "Falha de comunicacao com a API.\n"
+        );
+        return;
+    }
+
+    printf(
+        "Resposta recebida: %lu bytes.\n",      //especificador para size_t reconhecido por GCC/MinGW
+        (unsigned long)resposta.tamanho 
+    );
+
+    if (
+        !json_interpretar_leituras(
+            resposta.conteudo,
+            &resultado
+        )
+    ) {
+        printf(
+            "A resposta foi recebida, mas o JSON "
+            "nao contem leituras validas.\n"
+        );
+
+        api_libertar_resposta(&resposta);
+        return;
+    }
+
+    printf("\nResumo do processamento:\n");
+    printf(
+        "Leituras recebidas:  %d\n",
+        resultado.recebidas
+    );
+    printf(
+        "Leituras validas:    %d\n",
+        resultado.validas
+    );
+    printf(
+        "Leituras rejeitadas: %d\n",
+        resultado.rejeitadas
+    );
+
+    sensores_listar(
+        resultado.leituras
+    );
+
+    json_resultado_libertar(
+        &resultado
+    );
+
+    api_libertar_resposta(
+        &resposta
+    );
 }
 
 //menu de execucao da aplicacao
@@ -252,7 +316,7 @@ void menu_executar(EstadoAplicacao *aplicacao)
         printf("7. Listar sensores ordenados\n");
         printf("8. Gerir alertas\n");
         printf("9. Consultar historico\n");
-        printf("10. Testar comunicacao com a API\n");   //teste temporario da API
+        printf("10. Testar API e processamento JSON\n");   //teste temporario da API
         printf("0. Sair\n");
 
         printf("\nOpcao: ");
@@ -311,7 +375,7 @@ void menu_executar(EstadoAplicacao *aplicacao)
                 break;
 
                 case 10:
-                    testar_comunicacao_api();
+                    testar_api_e_json();
                     break;
 
             case 0:
